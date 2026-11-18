@@ -1,6 +1,6 @@
 {
-    "name": "Zivo Chat - Modern Social Hub",
-    "short_name": "Zivo Chat",
+    "name": "Zivo Chat Mobile",
+    "short_name": "ZivoChat",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#0f172a",
