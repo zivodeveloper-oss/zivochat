@@ -861,23 +861,29 @@ input:focus, select:focus {
     font-size: 13px;
 }
 
-/* ANDROID & MOBILE AUTO-SENSING UI */
-body.android-mode .sidebar {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transition: transform 0.3s ease;
-}
+/* STRICT MOBILE & ANDROID RESPONSIVE OVERRIDES */
+@media (max-width: 900px) {
+    .sidebar {
+        width: 100% !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 10;
+        transition: transform 0.3s ease;
+    }
+    
+    .chat-area {
+        position: absolute;
+        width: 100% !important;
+        height: 100vh;
+        left: 100%;
+        top: 0;
+        z-index: 12;
+        transition: left 0.3s ease;
+    }
 
-body.android-mode .chat-area {
-    position: absolute;
-    width: 100%;
-    left: 100%;
-    top: 0;
-    transition: left 0.3s ease;
-}
-
-body.android-mode .chat-area.mobile-active {
-    left: 0;
+    .chat-area.mobile-active {
+        left: 0 !important;
+    }
 }
