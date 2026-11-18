@@ -7,13 +7,13 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="desktop-mode">
 
     <!-- INITIAL LOADING GATE -->
     <div id="loading-screen" class="screen" style="justify-content:center; align-items:center; background:var(--bg-main); position:fixed; z-index:9999;">
         <div style="text-align:center; color:var(--text-main);">
             <div style="font-size:38px; margin-bottom:10px;">💬</div>
-            <h3>Loading Zivo Chat...</h3>
+            <h3>Detecting Device & Loading Zivo Chat...</h3>
         </div>
     </div>
 
@@ -120,11 +120,14 @@
         <!-- CHAT AREA -->
         <div class="chat-area" id="chat-area-bg">
             <div class="chat-header">
-                <div class="chat-header-user" onclick="openActiveChatProfile()" title="Click for More Info">
-                    <span id="chat-header-avatar">💬</span>
-                    <div>
-                        <h2 id="chat-title">Select a contact to chat</h2>
-                        <span id="chat-subtitle" style="font-size:11px; color:var(--text-muted);">Tap name for profile & bio</span>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button id="mobile-back-btn" onclick="returnToChatList()" class="icon-btn hidden" title="Back to Chats">⬅️</button>
+                    <div class="chat-header-user" onclick="openActiveChatProfile()" title="Click for More Info">
+                        <span id="chat-header-avatar">💬</span>
+                        <div>
+                            <h2 id="chat-title">Select a contact to chat</h2>
+                            <span id="chat-subtitle" style="font-size:11px; color:var(--text-muted);">Tap name for profile & bio</span>
+                        </div>
                     </div>
                 </div>
                 <div id="chat-header-actions" class="hidden" style="display:flex; gap:6px; align-items:center;">
@@ -172,7 +175,7 @@
                     <button id="cancel-voice-btn" class="icon-action-btn danger-text" title="Cancel Recording">✖️</button>
                     <div class="wave-container">
                         <span class="recording-dot"></span>
-                        <canvas id="audio-wave-canvas" width="320" height="36"></canvas>
+                        <canvas id="audio-wave-canvas" width="220" height="36"></canvas>
                         <span id="recording-timer" style="font-size:12px; color:var(--text-muted); min-width:38px;">0:00</span>
                     </div>
                     <button id="upload-voice-btn" class="send-primary-btn" title="Upload Voice Message">📤 Upload</button>
