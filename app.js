@@ -29,6 +29,7 @@ let activeMessageIdForDeletion = null;
 let activeContactProfileTarget = null;
 let unreadCounts = {};
 let deferredInstallPrompt = null;
+let isAndroidDevice = false;
 
 let mediaRecorder = null;
 let audioChunks = [];
@@ -83,6 +84,7 @@ const blockChatBtn = document.getElementById("block-chat-btn");
 const currentUserDisplay = document.getElementById("current-user-display");
 const userAvatarPreview = document.getElementById("user-avatar-preview");
 const dmList = document.getElementById("dm-list");
+const mobileBackBtn = document.getElementById("mobile-back-btn");
 
 const searchUserInput = document.getElementById("search-user-input");
 const searchUserBtn = document.getElementById("search-user-btn");
@@ -117,7 +119,25 @@ const settingBioInput = document.getElementById("setting-bio-input");
 const settingCarouselDisplay = document.getElementById("setting-carousel-display");
 const chatWallpaperFileInput = document.getElementById("chat-wallpaper-file-input");
 
+// DETECT OS AUTO-SENSING ON STARTUP
+function detectDeviceEnvironment() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    isAndroidDevice = /android/i.test(ua);
+    const bodyEl = document.body;
+
+    if (isAndroidDevice || window.innerWidth <= 768) {
+        bodyEl.classList.remove("desktop-mode");
+        bodyEl.classList.add("android-mode");
+    } else {
+        bodyEl.classList.remove("android-mode");
+        bodyEl.classList.add("desktop-mode");
+    }
+}
+
+window.addEventListener("resize", detectDeviceEnvironment);
+
 auth.onAuthStateChanged((user) => {
+    detectDeviceEnvironment();
     const acceptedTC = localStorage.getItem("zivo_tc_accepted");
     const loadingScreen = document.getElementById("loading-screen");
     if (loadingScreen) loadingScreen.classList.add("hidden");
@@ -619,7 +639,7 @@ function renderContacts() {
                 </div>
             </div>
             <div style="display:flex; align-items:center; gap:6px;">
-                <button class="chip-btn info-btn" title="View Bio & Info" onclick="event.stopPropagation(); openProfileModal('${contact.uid}')">ℹ️</button>
+                <button class="chip-btn info-btn" title="View Bio & Info" onclick="event.stopPropagation(); openProfileModal('${contact.uid}')">ℹ️ Info</button>
                 ${unreadHTML}
             </div>
         `;
@@ -654,9 +674,8 @@ function switchChat(chatId, contact, isSaved) {
     chatSearchInput.value = "";
 
     const chatAreaEl = document.querySelector(".chat-area");
-    if (window.innerWidth <= 768) {
-        chatAreaEl.classList.add("mobile-active");
-    }
+    chatAreaEl.classList.add("mobile-active");
+    if (mobileBackBtn) mobileBackBtn.classList.remove("hidden");
 
     if (activeChatListener) activeChatListener();
     activeChatListener = db.collection("chats").doc(chatId).onSnapshot((doc) => {
@@ -686,6 +705,13 @@ function switchChat(chatId, contact, isSaved) {
 
     renderContacts();
     loadMessages();
+}
+
+function returnToChatList() {
+    const chatAreaEl = document.querySelector(".chat-area");
+    chatAreaEl.classList.remove("mobile-active");
+    if (mobileBackBtn) mobileBackBtn.classList.add("hidden");
+    currentChatId = null;
 }
 
 function triggerChatWallpaperUpload() {
