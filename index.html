@@ -3,295 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zivo Chat - Modern Social Hub</title>
+    <title>Zivo Chat - Android Edition</title>
     <link rel="manifest" href="/manifest.json">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- INITIAL LOADING GATE -->
-    <div id="loading-screen" class="screen" style="justify-content:center; align-items:center; background:var(--bg-main); position:fixed; z-index:9999;">
+    <div id="loading-screen" class="app-screen" style="display:flex; justify-content:center; align-items:center; background:var(--bg-main); position:fixed; z-index:9999; inset:0;">
         <div style="text-align:center; color:var(--text-main);">
-            <div style="font-size:38px; margin-bottom:10px;">💬</div>
-            <h3>Loading Zivo Chat...</h3>
+            <div style="font-size:42px; margin-bottom:12px;">💬</div>
+            <h3>Loading Zivo Mobile...</h3>
         </div>
     </div>
 
-    <!-- TERMS & CONDITIONS MANDATORY GATE MODAL -->
+    <!-- TERMS & CONDITIONS MODAL -->
     <div id="tc-modal" class="modal hidden">
-        <div class="modal-content tc-content">
-            <h3>📜 Zivo Chat Master Legal Terms & Conditions (Version 99.0)</h3>
+        <div class="modal-content">
+            <h3>📜 Terms & Conditions</h3>
             <div class="tc-scroll-box">
-                <p>WELCOME TO ZIVO CHAT. PLEASE READ THESE MASTER TERMS AND CONDITIONS CAREFULLY... By clicking the "Accept & Continue" button below, you unconditionally agree to be bound by every clause, limitation, and disclaimer. Zivo Chat operates on an "AS IS" and "AS AVAILABLE" basis. You assume 100% personal, legal, and financial responsibility for all actions, uploads, chats, and transactions conducted through your account. For help or disputes, contact: zivo.developer@gmail.com.</p>
+                <p>Welcome to Zivo Chat Mobile. By clicking Accept, you agree to take full responsibility for your messages, media, and interactions. Operating on an AS-IS basis.</p>
             </div>
-            <div class="tc-buttons">
-                <button onclick="handleTCDcline()" class="secondary-btn">Cancel</button>
-                <button onclick="handleTCAccept()" class="primary-btn">Accept & Continue</button>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button onclick="handleTCDcline()" class="btn-secondary" style="flex:1;">Cancel</button>
+                <button onclick="handleTCAccept()" class="btn-primary" style="flex:1;">Accept</button>
             </div>
         </div>
     </div>
 
-    <!-- PWA INSTALL CONFIRMATION MODAL -->
+    <!-- PWA INSTALL MODAL -->
     <div id="install-modal" class="modal hidden">
-        <div class="modal-content" style="width: 340px; text-align: center;">
+        <div class="modal-content" style="text-align:center;">
             <h3>📥 Install Zivo Chat</h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin: 8px 0 16px 0;">Install Zivo Chat on your device for quick and easy access like a native app.</p>
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button onclick="closeInstallModal()" class="secondary-btn" style="flex: 1;">Cancel</button>
-                <button onclick="confirmAppInstall()" class="primary-btn" style="flex: 1;">Install</button>
+            <p style="font-size:13px; color:var(--text-muted); margin:10px 0;">Add Zivo Chat to your Android home screen for native app experience.</p>
+            <div style="display:flex; gap:10px;">
+                <button onclick="closeInstallModal()" class="btn-secondary" style="flex:1;">Later</button>
+                <button onclick="confirmAppInstall()" class="btn-primary" style="flex:1;">Install</button>
             </div>
         </div>
     </div>
 
     <!-- AUTH SCREEN -->
     <div id="auth-screen" class="screen hidden">
-        <div class="login-box">
-            <div class="brand-badge">💬 Zivo Chat</div>
-            <h2>Welcome Back</h2>
-            <p id="auth-subtitle">Log in to your account to start messaging.</p>
-            
-            <div id="signup-fields" class="hidden">
-                <input type="text" id="reg-username" placeholder="Choose Username..." autocomplete="off">
-                <input type="password" id="reg-password" placeholder="Choose Password..." autocomplete="off">
-                
-                <label class="file-upload-label">Choose Avatar (Carousel):</label>
-                <div class="carousel-container">
-                    <button type="button" class="carousel-arrow" onclick="shiftRegAvatar(-1)">◀</button>
-                    <div id="reg-carousel-display" class="carousel-avatar-display">👦🏽</div>
-                    <button type="button" class="carousel-arrow" onclick="shiftRegAvatar(1)">▶</button>
-                </div>
+        <div class="auth-card">
+            <div class="auth-logo">💬</div>
+            <h2>Zivo Chat</h2>
+            <p id="auth-subtitle">Sign in to continue</p>
 
-                <label class="file-upload-label" style="margin-top:10px;">Or Upload Avatar File:</label>
-                <input type="file" id="reg-file-input" accept="image/*">
+            <div id="signup-fields" class="hidden" style="display:flex; flex-direction:column; gap:12px;">
+                <input type="text" id="reg-username" placeholder="Username" autocomplete="off">
+                <input type="password" id="reg-password" placeholder="Password">
                 
-                <button id="submit-signup-btn" class="primary-btn">Create Account</button>
-                <p class="switch-auth">Already have an account? <span onclick="toggleAuthMode('login')">Login here</span></p>
+                <label style="font-size:12px; color:var(--text-muted);">Choose Avatar:</label>
+                <div class="carousel-box">
+                    <button type="button" class="carousel-btn" onclick="shiftRegAvatar(-1)">◀</button>
+                    <div id="reg-carousel-display" style="font-size:32px;">👦🏽</div>
+                    <button type="button" class="carousel-btn" onclick="shiftRegAvatar(1)">▶</button>
+                </div>
+                <input type="file" id="reg-file-input" accept="image/*" style="font-size:12px;">
+                <button id="submit-signup-btn" class="btn-primary">Create Account</button>
+                <p class="auth-switch">Already have an account? <span onclick="toggleAuthMode('login')">Login</span></p>
             </div>
 
-            <div id="login-fields">
-                <input type="text" id="login-username" placeholder="Enter Username..." autocomplete="off">
-                <input type="password" id="login-password" placeholder="Enter Password..." autocomplete="off">
-                <button id="submit-login-btn" class="primary-btn">Login</button>
-                <p class="switch-auth">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up here</span></p>
+            <div id="login-fields" style="display:flex; flex-direction:column; gap:12px;">
+                <input type="text" id="login-username" placeholder="Username" autocomplete="off">
+                <input type="password" id="login-password" placeholder="Password">
+                <button id="submit-login-btn" class="btn-primary">Login</button>
+                <p class="auth-switch">Don't have an account? <span onclick="toggleAuthMode('signup')">Sign Up</span></p>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP SCREEN -->
+    <!-- MAIN APP CONTAINER -->
     <div id="app-screen" class="screen hidden">
-        <!-- SIDEBAR -->
-        <div class="sidebar">
-            <div class="sidebar-top">
-                <h3>Messages</h3>
-                <div class="sidebar-icons">
-                    <button id="admin-panel-icon-btn" onclick="openAdminModal()" class="icon-btn hidden" title="Admin Control Panel">🛡️</button>
-                    <button onclick="toggleTheme()" class="icon-btn" title="Toggle Light/Dark Theme">🌓</button>
-                    <button onclick="openStatusModal()" class="icon-btn" title="Status & Privacy">📸</button>
-                    <button onclick="openInstallModal()" id="install-app-btn" class="icon-btn hidden" title="Install App">📥</button>
-                    <button onclick="openSettings()" class="icon-btn" title="Settings">⚙️</button>
+        
+        <!-- VIEW 1: CHAT LIST / HOME -->
+        <div id="view-home" class="app-view active">
+            <header class="mobile-header">
+                <h2>Zivo Chat</h2>
+                <div class="header-actions">
+                    <button onclick="openStatusModal()" class="header-icon">📸</button>
+                    <button onclick="toggleTheme()" class="header-icon">🌓</button>
+                    <button onclick="openSettings()" class="header-icon">⚙️</button>
                 </div>
+            </header>
+
+            <div class="mobile-search-bar">
+                <input type="text" id="search-user-input" placeholder="Search or start new chat..." autocomplete="off">
+                <button id="search-user-btn">🔍</button>
+                <div id="search-suggestions" class="search-dropdown hidden"></div>
             </div>
 
-            <div class="search-wrapper">
-                <div class="search-container">
-                    <input type="text" id="search-user-input" placeholder="Search username..." autocomplete="off">
-                    <button id="search-user-btn">🔍</button>
-                </div>
-                <div id="search-suggestions" class="search-suggestions hidden"></div>
-            </div>
+            <div class="chat-list-container" id="dm-list"></div>
 
-            <div class="chat-list" id="dm-list"></div>
-
-            <div class="user-profile">
-                <div class="profile-info" onclick="openProfileModal(currentUser.uid)" title="View My Profile">
-                    <span id="user-avatar-preview">👤</span>
-                    <div class="user-text-col">
-                        <span id="current-user-display">User</span>
-                        <span class="view-bio-label">View Bio & Info</span>
-                    </div>
-                </div>
-                <div style="display:flex; gap:6px;">
-                    <button onclick="logoutUser()" class="chip-btn" title="Logout">🚪</button>
-                    <button onclick="deleteAccount()" class="danger-btn-outline" title="Delete Account">🗑️</button>
-                </div>
-            </div>
+            <!-- BOTTOM NAVIGATION BAR -->
+            <nav class="mobile-bottom-nav">
+                <button class="nav-tab active" onclick="switchNavTab('chats')">💬 Chats</button>
+                <button class="nav-tab" onclick="openStatusModal()">📸 Status</button>
+                <button class="nav-tab" onclick="openSettings()">⚙️ Profile</button>
+            </nav>
         </div>
 
-        <!-- CHAT AREA -->
-        <div class="chat-area" id="chat-area-bg">
-            <div class="chat-header">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <button id="mobile-back-btn" onclick="returnToChatList()" class="icon-btn hidden" title="Back to Chats">⬅️</button>
-                    <div class="chat-header-user" onclick="openActiveChatProfile()" title="Click for More Info">
-                        <span id="chat-header-avatar">💬</span>
-                        <div>
-                            <h2 id="chat-title">Select a contact to chat</h2>
-                            <span id="chat-subtitle" style="font-size:11px; color:var(--text-muted);">Tap name for profile & bio</span>
-                        </div>
+        <!-- VIEW 2: ACTIVE CHAT ROOM -->
+        <div id="view-chat" class="app-view">
+            <header class="chat-room-header">
+                <button onclick="closeActiveChat()" class="back-btn">⬅</button>
+                <div class="chat-header-info" onclick="openActiveChatProfile()">
+                    <div id="chat-header-avatar" class="avatar-sm">💬</div>
+                    <div>
+                        <h4 id="chat-title">Contact</h4>
+                        <span id="chat-subtitle">Tap for info</span>
                     </div>
                 </div>
-                <div id="chat-header-actions" class="hidden" style="display:flex; gap:6px; align-items:center;">
-                    <button onclick="toggleChatSearch()" class="icon-btn" title="Search Messages">🔍</button>
-                    <button id="pin-chat-btn" onclick="togglePinCurrentChat()" class="chip-btn">📌 Pin</button>
-                    <button onclick="triggerChatWallpaperUpload()" class="chip-btn" title="Set Chat Background">🎨 Wallpaper</button>
+                <div class="chat-room-actions">
+                    <button onclick="triggerChatWallpaperUpload()" class="header-icon">🎨</button>
                     <input type="file" id="chat-wallpaper-file-input" class="hidden" accept="image/*" onchange="handleChatWallpaperUpload(this)">
-                    <button id="block-chat-btn" onclick="toggleBlockCurrentChat()" class="chip-btn danger">🚫 Block</button>
+                    <button onclick="togglePinCurrentChat()" class="header-icon" id="pin-chat-btn">📌</button>
+                    <button onclick="toggleBlockCurrentChat()" class="header-icon" id="block-chat-btn">🚫</button>
                 </div>
-            </div>
+            </header>
 
-            <!-- INLINE CHAT MESSAGE FINDER BAR -->
-            <div id="chat-search-bar" class="chat-search-bar hidden">
-                <input type="text" id="chat-search-input" placeholder="Search messages in this chat..." oninput="filterChatMessages(this.value)">
-                <button onclick="toggleChatSearch()" class="secondary-btn" style="padding:4px 10px; font-size:12px;">Close</button>
-            </div>
-
-            <!-- UNSAVED CONTACT BANNER -->
+            <!-- UNSAVED BANNER -->
             <div id="unsaved-contact-banner" class="unsaved-banner hidden">
-                <span>This sender is not in your saved contacts.</span>
-                <div style="display:flex; gap:8px;">
-                    <button onclick="saveCurrentUnknownContact()" class="primary-btn" style="padding:5px 12px; font-size:12px;">Save Contact</button>
-                    <button onclick="deleteCurrentUnknownContact()" class="danger-btn" style="padding:5px 12px; font-size:12px;">Delete Contact</button>
+                <span>Unknown contact</span>
+                <div style="display:flex; gap:6px;">
+                    <button onclick="saveCurrentUnknownContact()" class="btn-primary" style="padding:4px 10px; font-size:11px;">Save</button>
+                    <button onclick="deleteCurrentUnknownContact()" class="btn-danger" style="padding:4px 10px; font-size:11px;">Delete</button>
                 </div>
             </div>
 
-            <div id="messages-container" class="messages-container">
-                <div class="empty-state">
-                    <span style="font-size:42px;">💬</span>
-                    <p>Search for a username on the left or open a chat to start messaging.</p>
-                </div>
+            <div id="messages-container" class="messages-scroll-area">
+                <div class="empty-state">No messages yet. Say hello!</div>
             </div>
 
             <!-- CHAT INPUT BAR -->
-            <div class="chat-input-area hidden" id="chat-input-area">
-                <div id="text-input-wrapper" class="input-mode-wrapper">
+            <div class="chat-input-bar" id="chat-input-area">
+                <div id="text-input-wrapper" class="input-row">
                     <input type="file" id="chat-file-input" class="hidden">
-                    <button id="attach-file-btn" class="icon-action-btn" title="Attach Any File (Max 35MB)">📎</button>
-                    <button id="voice-record-btn" class="icon-action-btn" title="Record Voice Note">🎙️</button>
-                    <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
-                    <button id="send-btn" class="send-primary-btn">Send ➤</button>
+                    <button id="attach-file-btn" class="input-icon-btn">📎</button>
+                    <button id="voice-record-btn" class="input-icon-btn">🎙️</button>
+                    <input type="text" id="message-input" placeholder="Message..." autocomplete="off">
+                    <button id="send-btn" class="send-btn">➤</button>
                 </div>
 
-                <div id="voice-wave-wrapper" class="input-mode-wrapper hidden">
-                    <button id="cancel-voice-btn" class="icon-action-btn danger-text" title="Cancel Recording">✖️</button>
-                    <div class="wave-container">
+                <div id="voice-wave-wrapper" class="input-row hidden">
+                    <button id="cancel-voice-btn" class="input-icon-btn" style="color:var(--danger)">✖️</button>
+                    <div class="wave-box">
                         <span class="recording-dot"></span>
-                        <canvas id="audio-wave-canvas" width="200" height="36"></canvas>
-                        <span id="recording-timer" style="font-size:12px; color:var(--text-muted); min-width:38px;">0:00</span>
+                        <canvas id="audio-wave-canvas" width="160" height="30"></canvas>
+                        <span id="recording-timer" style="font-size:11px;">0:00</span>
                     </div>
-                    <button id="upload-voice-btn" class="send-primary-btn" title="Upload Voice Message">📤 Upload</button>
+                    <button id="upload-voice-btn" class="send-btn">Send</button>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <!-- WHATSAPP-STYLE STATUS VIEWER MODAL -->
-    <div id="status-viewer-modal" class="modal hidden" onclick="closeStatusViewer()">
-        <div class="status-viewer-box" onclick="event.stopPropagation()">
-            <div class="status-viewer-header">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span id="viewer-user-avatar" style="font-size:22px;">👤</span>
-                    <div>
-                        <strong id="viewer-user-name" style="display:block; font-size:14px;">User</strong>
-                        <span id="viewer-time-left" style="font-size:11px; color:#cbd5e1;">Active Status</span>
-                    </div>
-                </div>
-                <button onclick="closeStatusViewer()" class="icon-btn" style="color:white; font-size:20px;">✖️</button>
-            </div>
-            <div id="viewer-media-container" class="status-viewer-media"></div>
-        </div>
-    </div>
-
-    <!-- UPLOAD & PRIVACY STATUS MODAL -->
-    <div id="status-modal" class="modal hidden">
-        <div class="modal-content" style="width: 420px;">
-            <h3>📸 My Status & Privacy</h3>
-            
-            <label>1. Select Image or Video (Max 35MB):</label>
-            <input type="file" id="status-file-input" accept="image/*,video/*">
-
-            <label>2. Set Duration (Max 24 Hours):</label>
-            <div style="display:flex; gap:8px;">
-                <input type="number" id="status-duration-val" min="1" max="1440" value="24" style="flex:1;">
-                <select id="status-duration-unit" style="flex:1;">
-                    <option value="hours" selected>Hours (Max 24)</option>
-                    <option value="minutes">Minutes</option>
-                </select>
-            </div>
-
-            <button onclick="postNewStatus()" class="primary-btn" style="margin-top: 6px;">Upload Status</button>
-
-            <hr style="border-color:var(--border); margin: 8px 0;">
-
-            <label>3. Status Privacy (Saved Contacts):</label>
-            <div id="status-privacy-contacts-list" class="privacy-list-box"></div>
-
-            <button onclick="closeStatusModal()" class="secondary-btn" style="margin-top: 10px;">Close</button>
-        </div>
-    </div>
-
-    <!-- MORE INFO / USER PROFILE MODAL -->
+    <!-- PROFILE MODAL -->
     <div id="profile-modal" class="modal hidden">
-        <div class="modal-content" style="width: 360px; text-align: center;">
-            <div id="profile-modal-avatar" style="font-size: 54px; margin-bottom: 8px;">👤</div>
-            <h3 id="profile-modal-name">Username</h3>
-            <p id="profile-modal-bio" style="font-size: 13px; color: var(--text-muted); margin: 10px 0; background: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border);"></p>
-            <button onclick="closeProfileModal()" class="secondary-btn" style="margin-top: 10px;">Close</button>
+        <div class="modal-content" style="text-align:center;">
+            <div id="profile-modal-avatar" style="font-size:48px; margin-bottom:8px;">👤</div>
+            <h3 id="profile-modal-name">User</h3>
+            <p id="profile-modal-bio" class="bio-box"></p>
+            <button onclick="closeProfileModal()" class="btn-secondary" style="margin-top:10px;">Close</button>
         </div>
     </div>
 
-    <!-- DELETE MESSAGE MODAL -->
-    <div id="delete-msg-modal" class="modal hidden">
-        <div class="modal-content" style="width: 320px; text-align: center;">
-            <h3>Delete Message</h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Choose deletion option:</p>
-            <button onclick="confirmDeleteMessageForEveryone()" class="danger-btn" style="margin-bottom: 8px;">Delete for Everyone</button>
-            <button onclick="confirmDeleteMessageForMe()" class="secondary-btn" style="margin-bottom: 8px;">Delete for Me</button>
-            <button onclick="closeDeleteMsgModal()" class="secondary-btn">Cancel</button>
+    <!-- STATUS MODAL -->
+    <div id="status-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>📸 Status & Privacy</h3>
+            <label style="font-size:12px;">Upload Media (Max 35MB):</label>
+            <input type="file" id="status-file-input" accept="image/*,video/*" style="font-size:12px;">
+            <button onclick="postNewStatus()" class="btn-primary" style="margin-top:6px;">Post Status</button>
+            <hr style="border-color:var(--border); margin:10px 0;">
+            <label style="font-size:12px;">Privacy Controls:</label>
+            <div id="status-privacy-contacts-list" class="privacy-box"></div>
+            <button onclick="closeStatusModal()" class="btn-secondary" style="margin-top:10px;">Close</button>
         </div>
     </div>
 
-    <!-- SUPER ADMIN DASHBOARD MODAL -->
-    <div id="admin-modal" class="modal hidden">
-        <div class="modal-content" style="width: 520px; max-width: 92vw;">
-            <h3>🛡️ Super Admin Control Panel</h3>
-            <div id="admin-users-list" class="privacy-list-box" style="max-height: 320px;"></div>
-            <button onclick="closeAdminModal()" class="secondary-btn" style="margin-top:10px;">Close Panel</button>
+    <!-- STATUS VIEWER MODAL -->
+    <div id="status-viewer-modal" class="modal hidden" onclick="closeStatusViewer()">
+        <div class="status-viewer-container" onclick="event.stopPropagation()">
+            <div class="status-viewer-top">
+                <strong id="viewer-user-name">User</strong>
+                <button onclick="closeStatusViewer()" style="background:none; border:none; color:white; font-size:18px;">✖️</button>
+            </div>
+            <div id="viewer-media-container" class="status-viewer-content"></div>
         </div>
     </div>
 
     <!-- SETTINGS MODAL -->
     <div id="settings-modal" class="modal hidden">
         <div class="modal-content">
-            <h3>⚙️ App Settings</h3>
-            
-            <label>Theme Mode:</label>
+            <h3>⚙️ Settings</h3>
+            <label style="font-size:12px;">Theme:</label>
             <select id="setting-theme" onchange="updateSettings()">
                 <option value="dark">Dark Theme</option>
                 <option value="light">Light Theme</option>
             </select>
-
-            <label>Accent Color:</label>
-            <select id="setting-color" onchange="updateSettings()">
-                <option value="#3b82f6">Ocean Blue</option>
-                <option value="#10b981">Emerald Green</option>
-                <option value="#8b5cf6">Royal Purple</option>
-                <option value="#f59e0b">Amber Gold</option>
-                <option value="#ef4444">Crimson Red</option>
-                <option value="#ec4899">Neon Pink</option>
-            </select>
-
-            <label>Edit Bio / Description:</label>
-            <input type="text" id="setting-bio-input" placeholder="Write something about yourself..." autocomplete="off">
-
-            <label style="margin-top:6px;">Choose Avatar (Carousel):</label>
-            <div class="carousel-container">
-                <button type="button" class="carousel-arrow" onclick="shiftSettingAvatar(-1)">◀</button>
-                <div id="setting-carousel-display" class="carousel-avatar-display">👦🏽</div>
-                <button type="button" class="carousel-arrow" onclick="shiftSettingAvatar(1)">▶</button>
+            <label style="font-size:12px; margin-top:8px;">Bio:</label>
+            <input type="text" id="setting-bio-input" placeholder="About you..." autocomplete="off">
+            <label style="font-size:12px; margin-top:8px;">Avatar:</label>
+            <div class="carousel-box">
+                <button type="button" class="carousel-btn" onclick="shiftSettingAvatar(-1)">◀</button>
+                <div id="setting-carousel-display" style="font-size:28px;">👦🏽</div>
+                <button type="button" class="carousel-btn" onclick="shiftSettingAvatar(1)">▶</button>
             </div>
+            <button onclick="saveAppSettings()" class="btn-primary" style="margin-top:10px;">Save Changes</button>
+            <button onclick="logoutUser()" class="btn-secondary" style="margin-top:6px;">Logout</button>
+            <button onclick="closeSettings()" class="btn-secondary" style="margin-top:6px;">Close</button>
+        </div>
+    </div>
 
-            <button onclick="saveAppSettings()" class="primary-btn" style="margin-top:8px;">Save Settings</button>
-            <button onclick="closeSettings()" class="secondary-btn" style="margin-top: 6px;">Close Settings</button>
+    <!-- ADMIN MODAL -->
+    <div id="admin-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>🛡️ Admin Dashboard</h3>
+            <div id="admin-users-list" class="privacy-box"></div>
+            <button onclick="closeAdminModal()" class="btn-secondary" style="margin-top:10px;">Close</button>
+        </div>
+    </div>
+
+    <!-- DELETE MESSAGE MODAL -->
+    <div id="delete-msg-modal" class="modal hidden">
+        <div class="modal-content" style="text-align:center;">
+            <h3>Delete Message</h3>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                <button onclick="confirmDeleteMessageForEveryone()" class="btn-danger">Delete for Everyone</button>
+                <button onclick="confirmDeleteMessageForMe()" class="btn-secondary">Delete for Me</button>
+                <button onclick="closeDeleteMsgModal()" class="btn-secondary">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -303,9 +247,7 @@
     <script src="app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js');
-            });
+            window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
         }
     </script>
 </body>
