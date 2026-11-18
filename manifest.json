@@ -1,16 +1,20 @@
 {
-    "name": "Zivo Chat",
-    "short_name": "Zivo",
-    "description": "Modern Social Hub & Messaging Platform",
+    "name": "Zivo Chat - Modern Social Hub",
+    "short_name": "Zivo Chat",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#0b1120",
+    "background_color": "#0f172a",
     "theme_color": "#3b82f6",
     "icons": [
         {
-            "src": "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>",
-            "sizes": "192x192 512x512",
-            "type": "image/svg+xml"
+            "src": "https://img.icons8.com/fluency/96/chat--v1.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "https://img.icons8.com/fluency/512/chat--v1.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ]
 }
