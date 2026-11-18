@@ -861,23 +861,23 @@ input:focus, select:focus {
     font-size: 13px;
 }
 
-/* RESPONSIVE MOBILE VIEW */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: transform 0.3s ease;
-    }
-    .chat-area {
-        position: absolute;
-        width: 100%;
-        left: 100%;
-        top: 0;
-        transition: left 0.3s ease;
-    }
-    .chat-area.mobile-active {
-        left: 0;
-    }
+/* ANDROID & MOBILE AUTO-SENSING UI */
+body.android-mode .sidebar {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: transform 0.3s ease;
+}
+
+body.android-mode .chat-area {
+    position: absolute;
+    width: 100%;
+    left: 100%;
+    top: 0;
+    transition: left 0.3s ease;
+}
+
+body.android-mode .chat-area.mobile-active {
+    left: 0;
 }
