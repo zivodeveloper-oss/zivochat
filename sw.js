@@ -1,4 +1,4 @@
-const CACHE_NAME = 'zivo-chat-v1';
+const CACHE_NAME = 'zivo-chat-v2';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
