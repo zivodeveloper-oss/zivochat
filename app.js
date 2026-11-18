@@ -29,7 +29,6 @@ let activeMessageIdForDeletion = null;
 let activeContactProfileTarget = null;
 let unreadCounts = {};
 let deferredInstallPrompt = null;
-let isAndroidDevice = false;
 
 let mediaRecorder = null;
 let audioChunks = [];
@@ -119,25 +118,7 @@ const settingBioInput = document.getElementById("setting-bio-input");
 const settingCarouselDisplay = document.getElementById("setting-carousel-display");
 const chatWallpaperFileInput = document.getElementById("chat-wallpaper-file-input");
 
-// DETECT OS AUTO-SENSING ON STARTUP
-function detectDeviceEnvironment() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    isAndroidDevice = /android/i.test(ua);
-    const bodyEl = document.body;
-
-    if (isAndroidDevice || window.innerWidth <= 768) {
-        bodyEl.classList.remove("desktop-mode");
-        bodyEl.classList.add("android-mode");
-    } else {
-        bodyEl.classList.remove("android-mode");
-        bodyEl.classList.add("desktop-mode");
-    }
-}
-
-window.addEventListener("resize", detectDeviceEnvironment);
-
 auth.onAuthStateChanged((user) => {
-    detectDeviceEnvironment();
     const acceptedTC = localStorage.getItem("zivo_tc_accepted");
     const loadingScreen = document.getElementById("loading-screen");
     if (loadingScreen) loadingScreen.classList.add("hidden");
@@ -639,7 +620,7 @@ function renderContacts() {
                 </div>
             </div>
             <div style="display:flex; align-items:center; gap:6px;">
-                <button class="chip-btn info-btn" title="View Bio & Info" onclick="event.stopPropagation(); openProfileModal('${contact.uid}')">ℹ️ Info</button>
+                <button class="chip-btn info-btn" title="View Bio & Info" onclick="event.stopPropagation(); openProfileModal('${contact.uid}')">ℹ️</button>
                 ${unreadHTML}
             </div>
         `;
