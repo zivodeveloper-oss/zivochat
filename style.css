@@ -497,6 +497,19 @@ input:focus, select:focus {
     object-fit: cover;
 }
 
+.user-text-col {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: flex-start;
+}
+
+.view-bio-label {
+    font-size: 11px; 
+    color: var(--text-muted); 
+    font-weight: normal;
+}
+
 #current-user-display {
     font-size: 14px;
     font-weight: 600;
@@ -518,6 +531,12 @@ input:focus, select:focus {
 .chip-btn.danger {
     color: var(--danger);
     border-color: var(--danger);
+}
+
+.info-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+    background: var(--bg-main);
 }
 
 /* CHAT AREA */
